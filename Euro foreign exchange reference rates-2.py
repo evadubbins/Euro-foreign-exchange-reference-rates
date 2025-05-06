@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# Preparation: Load libraries, get the data, set first and last date for our data analysis
-
-# In[1]:
-
-
 # Load neccessary libraries
 import pandas as pd
 import numpy as np
@@ -35,19 +27,12 @@ df = df.round(4)  # Round to 4 decimal places for readability
 # Display the DataFrame
 df
 
-
-# In[2]:
-
-
 # Drop columns with NaN values and modify DataFrame
 df.dropna(axis=1, inplace=True)
 df
 
-
+#------------------
 # Goal 1: Simple currency converter: Input a quantity in CHF, USD, CNY or AUD and convert to Euro or vice versa for the date 31/12/2024
-
-# In[3]:
-
 
 # Define the date for currency conversion — end of the year 2024
 conversion_date = '2024-12-31'
@@ -91,16 +76,15 @@ while True:
        
          # Successful conversion → exit loop
         break 
-        
+
+    # Generate error messages
     except ValueError as e:
         print("There was an error:", e)
         print("Please try again.\n")
 
 
+#------------------
 # Goal 2: Historical exchange rate analysis: Line chart of how individual exchange rates have developed over the year 2024 and displaying KPIs such as maximum, minimum, mean value and volatility (range of fluctuation) of each exchange rate
-
-# In[4]:
-
 
 # Create the plot figure with custom size
 plt.figure(figsize=(14, 6))
@@ -116,11 +100,7 @@ plt.grid(True) # Easier reading
 plt.tight_layout() # Adjust the layout to make it cleaner
 plt.show()
 
-
-# In[5]:
-
-
-# List to collect KPI rows for each currency
+# Create List to collect KPI rows for each currency
 kpi_rows = []
 
 # Loop through each currency to calculate KPIs
@@ -155,12 +135,10 @@ kpi_df = pd.DataFrame(kpi_rows)
 kpi_df
 
 
+# ---------------
 # Goal 3: Simulated currency forecast for exchange rate CHF→EUR for 2025: Linear regression to forecast, comparison with actual data for January, February and March 25 
 
-# In[6]:
-
-
-# Full time-series forecast with index-based sequence:
+# First: Full time-series forecast with index-based sequence
 
 # Load neccessary libraries for linear regression
 from sklearn.model_selection import train_test_split
@@ -176,8 +154,8 @@ def generate_chf_data(start, end, loc=0.95, scale=0.01):
 
 # Train and predict with linear regression
 def regression_model(df, predict_start, predict_end):
-    X = np.arange(len(df)).reshape(-1, 1)
-    Y = df['CHF'].values
+    X = np.arange(len(df)).reshape(-1, 1)    # independent variable -> days
+    Y = df['CHF'].values                     # dependent variable -> CHF to EUR
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
     # Define standard scaler
@@ -190,19 +168,22 @@ def regression_model(df, predict_start, predict_end):
     # Create and fit linear regression model
     model = LinearRegression()
     model.fit(X_train_scaled, Y_train)
-
+    
+    # Make predictions on the scaled test data
     Y_pred = model.predict(X_test_scaled)
     print(f"Mean Squared Error: {mean_squared_error(Y_test, Y_pred)}")
-    
      
-    # Predict future values
+    # Generate a sequence of future business days to make predictions for
     future_dates = pd.date_range(start=predict_start, end=predict_end, freq='B')
+    
+    # Create, scale and predict corresponding future values
     X_future = np.arange(len(df), len(df) + len(future_dates)).reshape(-1, 1)
     X_future_scaled = scaler.transform(X_future)
     Y_future_pred = model.predict(X_future_scaled)
-
+    
+    # Create a DataFrame with predicted CHF values and corresponding dates
     pred_df = pd.DataFrame({'Date': future_dates, 'Predicted_CHF': Y_future_pred})
-    actual_df = generate_chf_data(predict_start, predict_end)
+    actual_df = generate_chf_data(predict_start, predict_end) 
     
     # Compare predicted values with actual data and print difference
     comparison = actual_df.merge(pred_df, on='Date')
@@ -210,15 +191,12 @@ def regression_model(df, predict_start, predict_end):
     print(comparison)
 
 # Main execution
-np.random.seed(42)
-df_2024 = generate_chf_data("2024-01-01", "2024-12-31")
-regression_model(df_2024, "2025-01-01", "2025-03-31")
+np.random.seed(42) # Set random seed for reproducibility
+df_2024 = generate_chf_data("2024-01-01", "2024-12-31") # Generate historical data for 2024
+regression_model(df_2024, "2025-01-01", "2025-03-31")   # Train model and predict CHF for Q1 2025
 
 
-# In[7]:
-
-
-# Graphical illustration with mean values 
+# Graphical illustration with mean values: 
 # Define the comparison DataFrame with actual and predicted values
 comparison_df = pd.DataFrame({
     'Date': pd.date_range(start="2025-01-01", end="2025-03-31", freq='B'),
@@ -252,10 +230,7 @@ plt.xticks(rotation=45)
 plt.show()
 
 
-# In[9]:
-
-
-# Point predictions for defined target dates (same as above but other dates and X_predict values)
+# Second: Point predictions for defined target dates (same as above but other dates and X_predict values)
 
 # Select data
 dates_in_2024 = pd.date_range(start="2024-01-01", end="2024-12-31", freq='B')
@@ -323,10 +298,7 @@ def regression_model(X_train_scaled, Y_train, X_test_scaled, Y_test):
 regression_model(X_train_scaled, Y_train, X_test_scaled, Y_test)
 
 
-# In[10]:
-
-
-# Graphical illustration with regression 
+# Graphical illustration with regression:
 # Define the comparison DataFrame with actual and predicted values
 comparison_df = pd.DataFrame({
     'Date': pd.to_datetime(['2025-01-15', '2025-02-15', '2025-03-15']),
@@ -357,10 +329,3 @@ plt.xticks(rotation=45)
 
 # Show plot
 plt.show()
-
-
-# In[ ]:
-
-
-
-
