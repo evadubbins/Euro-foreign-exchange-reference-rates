@@ -1,10 +1,5 @@
-#!/usr/bin/env python
-# coding: utf-8
-
+# Inspired by ChatGPT
 # Preparation: Load libraries, get the data, set first and last date for our data analysis
-
-# In[1]:
-
 
 # Import neccessary libraries 
 import pandas as pd
@@ -42,19 +37,12 @@ df = df.sort_index()
 print("The euro exchange reference rates are as follows:")
 print(df.tail())
 
-
-# In[2]:
-
-
 # Drop columns with NaN values and modify DataFrame
 df.dropna(axis=0, inplace=True)
 df
 
-
+#-----
 # Goal 1: Simple currency converter: Input a quantity in CHF, USD, CNY or AUD and convert to Euro or vice versa for the date of yesterday 
-
-# In[3]:
-
 
 # Get yesterday's date
 today = datetime.date.today()
@@ -68,7 +56,6 @@ conversion_date = df.index[df.index <= yesterday].max()
 
 # Extract the exchange rates for that specific day (row from the DataFrame)
 rate_on_date = df.loc[conversion_date]  # This gives you a Series with currency values on that day
-
 
 
 # Define a simple currency converter function
@@ -88,7 +75,7 @@ def convert_currency(amount, from_currency, to_currency='EUR'):
     else:
         raise ValueError("Conversion only supports to/from Euro.")
 
-        
+    
 # Ask the user for input. Try again if an error occurs
 while True:
     try:
@@ -115,9 +102,8 @@ while True:
         print("Please try again.\n")
 
 
+#-------
 #  Goal 2: Historical exchange rate analysis: Line chart of how individual exchange rates have developed over the years and displaying KPIs such as maximum, minimum, mean value and volatility (range of fluctuation) of each exchange rate
-
-# In[4]:
 
 
 # Ask the user which currency to display
@@ -142,10 +128,6 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 
-
-# In[6]:
-
-
 # List to collect KPI rows for each currency
 kpi_rows = []
 
@@ -154,10 +136,10 @@ for currency in ['USD', 'CHF', 'CNY', 'AUD']:
     series = df[currency]
 
     # Basic statistics
-    max_val = series.max()
-    min_val = series.min()
-    mean_val = series.mean()
-    volatility = max_val - min_val
+    max_val = series.max()     # Maximum
+    min_val = series.min()     # Minimum
+    mean_val = series.mean()   # Mean
+    volatility = max_val - min_val   #Volatility
 
     # Dates for max and min
     max_date = series.idxmax()
