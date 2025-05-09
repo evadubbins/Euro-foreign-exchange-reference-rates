@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # Preparation: Load libraries, get the data, set first and last date for our data analysis
-
-# In[3]:
-
 
 # Import neccessary libraries 
 import pandas as pd
@@ -41,19 +35,13 @@ df = df.sort_index()
 print("The euro exchange reference rates are as follows:")
 print(df.tail())
 
-
-# In[4]:
-
-
 # Drop columns with NaN values and modify DataFrame
 df.dropna(axis=0, inplace=True)
 df
 
 
+#------
 # Goal 1: Simple currency converter: Input a quantity in CHF, USD, CNY or AUD and convert to Euro or vice versa for the date of yesterday 
-
-# In[5]:
-
 
 # Get yesterday's date
 today = datetime.date.today()
@@ -67,7 +55,6 @@ conversion_date = df.index[df.index <= yesterday].max()
 
 # Extract the exchange rates for that specific day (row from the DataFrame)
 rate_on_date = df.loc[conversion_date]  # This gives you a Series with currency values on that day
-
 
 
 # Define a simple currency converter function
@@ -108,7 +95,8 @@ while True:
        
          # Successful conversion → exit loop
         break 
-        
+
+    # Error messages for failure
     except ValueError as e:
         print("There was an error:", e)
         print("Please try again.\n")
