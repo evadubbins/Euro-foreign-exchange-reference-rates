@@ -4,7 +4,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from datetime import datetime
 from sklearn.linear_model import LinearRegression
 
 # Set our individual first and the last date for our data analysis
@@ -59,12 +58,12 @@ def convert_currency(amount, from_currency, to_currency='EUR'):
     else:
         raise ValueError("Conversion only supports to/from Euro.")
 
-        
 # Ask the user for input. Try again if an error occurs
 while True:
     try:
-        amount = float(input("Enter the amount to convert: "))  # User input for amount
+        print(f"Currency converter: Please insert your conversion request:")
         from_currency = input("Enter the currency you are converting from (USD, CHF, CNY, AUD, EUR): ").upper()
+        amount = float(input("Enter the amount to convert: "))  
         to_currency = input("Enter the currency you want to convert to (USD, CHF, CNY, AUD, EUR): ").upper()
 
         # Check if conversion is valid (must involve EUR)
@@ -74,12 +73,12 @@ while True:
 
         # Perform the conversion
         result = convert_currency(amount, from_currency, to_currency)  
+        print(f"The exchange rate according to your input was as the following:")
         print(f"{amount} {from_currency} was equal to {result} {to_currency} on {conversion_date}.")
        
          # Successful conversion → exit loop
         break 
-
-    # Generate error messages
+        
     except ValueError as e:
         print("There was an error:", e)
         print("Please try again.\n")
