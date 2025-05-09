@@ -79,7 +79,7 @@ def convert_currency(amount, from_currency, to_currency='EUR'):
 # Ask the user for input. Try again if an error occurs
 while True:
     try:
-        print(f"Currency converter: Please insert your conversion request:")
+        print(f"Currency converter, supporting the currencies EUR to USD, CHF, CNY and AUD : Please insert your conversion request:")
         from_currency = input("Enter the currency you are converting from (USD, CHF, CNY, AUD, EUR): ").upper()
         amount = float(input("Enter the amount to convert: "))  
         to_currency = input("Enter the currency you want to convert to (USD, CHF, CNY, AUD, EUR): ").upper()
