@@ -19,7 +19,7 @@ with zipfile.ZipFile(io.BytesIO(response.content)) as z:
         # Read with correct delimiter (comma)
         df = pd.read_csv(f)
 
-# Rename first column to 'Date' to make sure rhere is no error occurring 
+# Rename first column to 'Date' to make sure there is no error occurring 
 df.rename(columns={df.columns[0]: 'Date'}, inplace=True)
 
 # Convert Date to datetime and set as index
