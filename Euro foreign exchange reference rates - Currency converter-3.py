@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # Preparation of data 
 
 # In[1]:
