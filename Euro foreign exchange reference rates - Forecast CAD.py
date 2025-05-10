@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # Goal 3: Simulated currency forecast for exchange rate EUR/CAD for 2025, assuming we work with only the data until the end of 2024 and did not know the actual data: Forecasting with SARIMAX, afterwards comparison with actual data for January, February, March and April 25 
 
 # In[1]:
