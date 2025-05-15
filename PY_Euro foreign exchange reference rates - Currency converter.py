@@ -1,4 +1,4 @@
-#Inspired by ChatGPT
+# Inspired by ChatGPT
 
 # Preparation of data 
 
