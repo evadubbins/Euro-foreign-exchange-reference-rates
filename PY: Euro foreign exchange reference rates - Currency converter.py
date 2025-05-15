@@ -133,7 +133,7 @@ plt.plot(df.index, df[selected_currency], label=selected_currency)
 
 # Modify plot
 plt.title(f'Exchange Rate Trend to EUR: {selected_currency}')
-plt.xlabel('Date')
+plt.xlabel('Year')
 plt.ylabel('Exchange Rate')
 plt.legend()
 plt.grid(True)
