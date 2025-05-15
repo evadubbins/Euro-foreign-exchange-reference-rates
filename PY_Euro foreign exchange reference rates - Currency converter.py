@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
+#Inspired by ChatGPT
 
 # Preparation of data 
 
